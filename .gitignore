@@ -37,7 +37,6 @@ Thumbs.db
 **/runs/
 **/outputs/
 **/checkpoints/
-**/models/
 **/wandb/
 
 # --- Node / Frontend ---
