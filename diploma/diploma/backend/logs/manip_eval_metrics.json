@@ -1,0 +1,28 @@
+{
+  "accuracy": 0.561767204757859,
+  "macro_precision": 0.5904916544451428,
+  "macro_recall": 0.5725980446291664,
+  "macro_f1": 0.5436043218710094,
+  "precision_manip": 0.5261921540991309,
+  "recall_manip": 0.7994289793004996,
+  "f1_manip": 0.6346508003966568,
+  "roc_auc_manip": 0.6316532165176488,
+  "confusion_matrix": [
+    [
+      2240,
+      562
+    ],
+    [
+      2017,
+      1066
+    ]
+  ],
+  "class_names": [
+    "manipulated",
+    "real"
+  ],
+  "idx_manip": 0,
+  "idx_real": 1,
+  "threshold": 0.5,
+  "n_samples": 5885
+}

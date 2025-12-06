@@ -1,0 +1,719 @@
+/* ==== Базові стилі ==== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+    color: #0f172a;
+}
+
+/* ==== Кореневий контейнер застосунку ==== */
+
+/* Головний контейнер */
+.app-root {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 20%, #1e293b 80%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px;
+}
+
+/* Заголовок — окремий блок */
+.app-header-block {
+    background: white;
+    color: #0f172a;
+    padding: 20px 24px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Картка для кожного блоку */
+.card-block {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 20px; /* відстань між блоками */
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Заголовок зверху */
+
+.app-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e5f2ff;
+    text-align: center;
+    margin: 0 0 16px 0;
+}
+
+/* ==== Карточка основного контенту (логін + аналіз) ==== */
+
+.app-card {
+    width: 100%;
+    max-width: 980px;
+    background: rgba(248, 250, 252, 0.98);
+    border-radius: 24px;
+    padding: 24px 32px 28px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+}
+
+/* Заголовки всередині карточок */
+
+.app-card-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 12px 0;
+}
+
+/* Пояснювальний текст */
+
+.app-card-text {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 12px 0;
+}
+
+/* Панель логіну */
+
+.auth-panel {
+    margin-bottom: 16px;
+}
+
+.auth-toggle {
+    font-size: 12px;
+}
+
+/* ==== Кнопки ==== */
+
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: #f9fafb;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.45);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(37, 99, 235, 0.55);
+}
+
+.primary-button:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.45);
+}
+
+.primary-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Вторинна кнопка (перемикач логін/реєстрація, додаткові дії) */
+
+.secondary-button {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid #cbd5f5;
+    background: #e5e7f8;
+    color: #1f2937;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.secondary-button:hover {
+    background: #dbe3fb;
+    border-color: #a5b4fc;
+}
+
+/* ==== Інпут поля (логін/реєстрація, за потреби ще десь) ==== */
+
+.input-field {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+}
+
+.input-field:focus {
+    border-color: #4f46e5;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+
+/* ==== Завантаження файлу / прев’ю ==== */
+
+.file-input-wrapper {
+    margin-bottom: 12px;
+}
+
+.file-input {
+    display: inline-block;
+    font-size: 14px;
+}
+
+.file-input-label {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: #ffffff;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+    font-size: 14px;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-input-name {
+    font-size: 13px;
+    color: #4b5563;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* === Адмінська гістограма fusion === */
+
+.fusion-chart {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fusion-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.fusion-bar-label {
+    width: 70px;
+    text-align: right;
+    color: #4b5563; /* сірий */
+    flex-shrink: 0;
+}
+
+.fusion-bar-track {
+    flex: 1;
+    background: #e5e7eb; /* світло-сірий фон доріжки */
+    border-radius: 999px;
+    overflow: hidden;
+    height: 8px;
+}
+
+.fusion-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #22c55e, #facc15, #ef4444);
+    /* зелений → жовтий → червоний */
+}
+
+.fusion-bar-count {
+    width: 32px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: #111827;
+    flex-shrink: 0;
+    font-size: 12px;
+}
+
+
+.image-preview {
+    max-width: 260px;
+    height: auto;
+    border-radius: 18px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.15);
+    margin-bottom: 16px;
+}
+
+/* ==== Історія аналізів ==== */
+
+.history-container {
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 24px;
+}
+
+.history-card {
+    border-radius: 24px;
+    background: rgba(248, 250, 252, 0.98);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+    padding: 24px 28px 28px;
+}
+
+.history-table-wrapper {
+    margin-top: 12px;
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    font-size: 13px;
+}
+
+/* Хедер таблиці */
+
+.history-table thead tr {
+    background: #020617;
+}
+
+.history-table thead th {
+    color: #e5e7eb;
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 500;
+}
+
+.history-table thead th:first-child {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
+
+.history-table thead th:last-child {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+/* Рядки таблиці */
+
+.history-table tbody tr {
+    background: #f8fafc;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.history-table tbody tr:hover {
+    transform: translateY(-1px);
+    background: #eef2ff;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.25);
+}
+
+/* Осередки */
+
+.history-table td {
+    padding: 10px 12px;
+    vertical-align: top;
+    color: #111827;
+}
+
+.history-table td:first-child {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
+
+.history-table td:last-child {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+/* Текст у таблиці */
+
+.history-date {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.history-filename {
+    font-weight: 600;
+    color: #111827;
+}
+
+.text-muted {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.history-note {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.history-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.history-stat-card {
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 12px 14px;
+}
+
+.history-stat-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #111827;
+}
+
+.history-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    color: #111827;
+}
+
+.history-stat-sub {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.history-stat-line {
+    font-size: 13px;
+    color: #374151;
+    margin: 2px 0;
+}
+
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    margin-right: 6px;
+}
+
+.dot-low {
+    background-color: #16a34a;
+}
+
+.dot-mid {
+    background-color: #facc15;
+}
+
+.dot-high {
+    background-color: #dc2626;
+}
+
+
+.result-tabs {
+    margin-top: 20px;
+}
+
+.result-tabs-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.result-tab-button {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid #cbd5f5;
+    background: #e5e7f8;
+    color: #1f2937;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.result-tab-button:hover {
+    background: #dbe3fb;
+    border-color: #a5b4fc;
+    transform: translateY(-1px);
+}
+
+.result-tab-button--active {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    border-color: #2563eb;
+    color: #f9fafb;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.45);
+}
+
+.result-tabs-body {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 16px 18px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+}
+
+/* Щоб heatmap не стрибав */
+.result-image {
+    margin-top: 16px;
+    max-width: 100%;
+}
+
+/* Контейнер для секції результатів */
+.result-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Ряд із кнопками-таби */
+.tabs-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Загальний стиль таб-кнопки */
+.tab-button {
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.05s ease;
+}
+
+/* Ховер по табу */
+.tab-button:hover {
+    background-color: #f3f4f6;
+}
+
+/* Активний таб */
+.tab-button.active {
+    background-color: #2563eb;
+    color: #ffffff;
+    border-color: #1d4ed8;
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Карточка вмісту табів */
+.tab-content-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+
+/* Базовий блок усередині app-card */
+.section-block {
+    position: relative;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+/* Кожен наступний блок після попереднього:
+   - має невеликий відступ зверху
+   - зверху між блоками малюється тонка риска на всю ширину карточки */
+.section-block + .section-block {
+    margin-top: 18px; /* відстань між блоками */
+}
+
+.section-block + .section-block::before {
+    content: "";
+    position: absolute;
+    top: -9px; /* трошки вище початку блока */
+    left: -24px; /* вийти за контент, до країв app-card */
+    right: -24px;
+    height: 1px;
+    background: #e2e8f0; /* світло-сіра лінія-розділювач */
+}
+
+
+/* опис системи можна трохи “притиснути” зверху */
+.section-intro {
+    margin-top: 0;
+}
+
+.section-auth {
+    background: #eef2ff;
+    border-radius: 16px;
+    padding: 16px 18px;
+}
+
+.section-switch {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 14px;
+}
+
+/*!* блок із кнопками "Аналіз / Моя історія" *!*/
+/*.section-switch {*/
+/*    !* сама риска вже буде через .section-block + .section-block *!*/
+/*}*/
+
+/* ==== Підсвітка числових значень (AI, manip, patch, meta, fusion) ==== */
+
+.score {
+    font-variant-numeric: tabular-nums;
+}
+
+.score-low {
+    color: #059669; /* зелений – низька підозрілість */
+    font-weight: 600;
+}
+
+.score-mid {
+    color: #d97706; /* жовтий – середня */
+    font-weight: 600;
+}
+
+.score-high {
+    color: #dc2626; /* червоний – висока */
+    font-weight: 600;
+}
+
+/* Перемикачі кнопок */
+.switch-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+
+.switch-buttons button {
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    border: 2px solid #3b82f6;
+    transition: 0.2s;
+}
+
+.switch-buttons button.active {
+    background: #3b82f6;
+    color: white;
+}
+
+.switch-buttons button:not(.active) {
+    background: white;
+    color: #1e293b;
+}
+
+.switch-buttons button:not(.active):hover {
+    background: #e2e8f0;
+}
+
+.toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    background: #111827;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    animation: fadeInSlide .4s ease;
+    z-index: 9999;
+}
+
+.toast-success {
+    background: #16a34a;
+}
+
+.toast-error {
+    background: #dc2626;
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.upload-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0 6px;
+}
+
+.upload-preview {
+    display: block;
+    margin-top: 12px;
+
+    /* обмеження розміру */
+    max-width: 320px; /* ширина прев’ю */
+    max-height: 320px; /* висота прев’ю */
+    width: 100%; /* щоб адаптувалось у вузьких екранах */
+    height: auto;
+    object-fit: contain; /* зберігає пропорції, не ріже картинку */
+
+    /* оформлення */
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    background: #ffffff;
+    padding: 6px;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+}
+
+.upload-row + .upload-preview {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/*.upload-preview {*/
+/*    margin-top: 10px;*/
+/*    max-width: 100%;*/
+/*    border-radius: 12px;*/
+/*    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.25);*/
+/*}*/
+
+.view-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+
+/* Панель з результатами / історією */
+.view-panel {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+
+/* підблоки всередині панелі */
+.view-subblock + .view-subblock {
+    margin-top: 16px;
+}

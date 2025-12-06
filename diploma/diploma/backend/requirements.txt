@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pillow
+torch
+torchvision
+timm
+scikit-learn
+opencv-python
+tqdm
+pandas
+datasets

@@ -1,0 +1,63 @@
+diploma/diploma/tests/
+
+# --- Python ---
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.mypy_cache/
+.pytest_cache/
+.env
+venv/
+env/
+
+# --- Models / Inference artifacts ---
+*.pt
+*.pth
+*.onnx
+*.pickle
+*.pkl
+
+# --- Node / Frontend ---
+**/node_modules/
+**/build/
+**/dist/
+**/.cache/
+
+# --- IDE/tools ---
+.vscode/
+.idea/
+*.log
+
+# --- System ---
+.DS_Store
+Thumbs.db
+
+# Cache / Artifacts
+**/runs/
+**/outputs/
+**/checkpoints/
+**/models/
+**/wandb/
+
+# --- Node / Frontend ---
+frontend/node_modules/
+frontend/.env
+frontend/build/
+frontend/dist/
+frontend/.cache/
+*.lock
+
+# --- Images ---
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.gif
+*.tif
+*.zip
+
+# --- System files ---
+*.swp
+*.tmp
+*.bak
