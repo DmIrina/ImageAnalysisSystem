@@ -245,15 +245,14 @@ def train_ai_detector(
         classes_override=original_classes,
     )
 
-    # ← ОЦЕ НОВЕ: метрики на вже навченій моделі
-    compute_binary_metrics(
+    metrics = compute_binary_metrics(
         name="AI detector (ai_vit_b16, positive = ai_generated)",
         y_true=ai_y,
         y_prob=ai_p,
         threshold=0.5,
     )
 
-    return ai_p, ai_y
+    return ai_p, ai_y, metrics
 
 
 def compute_binary_metrics(
