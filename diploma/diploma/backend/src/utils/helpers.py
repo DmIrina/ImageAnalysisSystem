@@ -21,23 +21,3 @@ def to_tensor(img: Image.Image, size: int = 224) -> torch.Tensor:
         transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
     ])
     return tr(img).unsqueeze(0).to(DEVICE)
-
-#
-# # === Випадкові патчі для аналізу локальних артефактів ===
-# def random_patches(img: Image.Image, patch_size=128, count=5):
-#     W, H = img.size
-#     patches = []
-#     for _ in range(count):
-#         if W < patch_size or H < patch_size:
-#             continue
-#         x = np.random.randint(0, W - patch_size)
-#         y = np.random.randint(0, H - patch_size)
-#         patches.append(img.crop((x, y, x + patch_size, y + patch_size)))
-#     return patches
-#
-#
-# # === Нормалізація теплової карти (0-1) ===
-# def normalize_heatmap(cam):
-#     cam = cam - cam.min()
-#     cam = cam / (cam.max() + 1e-6)
-#     return cam

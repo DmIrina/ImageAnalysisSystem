@@ -47,7 +47,6 @@ export default function LoginPanel({isAuthenticated, onAuthSuccess, onLogout}) {
                 const isAdmin = !!profile.data.is_admin;
 
                 showToast(`Вітаємо, ${name || "користувачу"}!`, "success");
-                // onAuthSuccess && onAuthSuccess();
                 onAuthSuccess && onAuthSuccess({ isAdmin, fullName: name });
             } else {
                 if (!fullName.trim()) {
@@ -89,7 +88,7 @@ export default function LoginPanel({isAuthenticated, onAuthSuccess, onLogout}) {
                             Вітаємо, <b>{userName}</b>!
                         </p>
                         <p className="app-card-text" style={{marginBottom: 0}}>
-                            Історія аналізів зображень буде збережена у вашому кабінеті.
+                            Історія проаналізованих зображень буде збережена у вашому кабінеті.
                         </p>
                     </div>
 

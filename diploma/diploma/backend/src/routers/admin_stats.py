@@ -103,7 +103,7 @@ def admin_overview(
     def avg(sum_val, count):
         return (sum_val / count) if count else None
 
-    # топ-5 користувачів за кількістю зображень
+    # топ користувачів за кількістю зображень
     top_users_data = (
         db.query(User)
         .filter(User.id.in_(user_image_counts.keys()))
@@ -142,7 +142,7 @@ def admin_overview(
             "low": low,
             "mid": mid,
             "high": high,
-            "bins": fusion_bins,  # 10 інтервалів по 0.1
+            "bins": fusion_bins,
         },
         "top_users_by_images": top_users,
     }

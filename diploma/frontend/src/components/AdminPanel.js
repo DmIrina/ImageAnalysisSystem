@@ -51,9 +51,9 @@ export default function AdminPanel() {
 
     return (
         <div>
-            <h2 className="app-card-title">Адмінська панель статистики</h2>
+            <h2 className="app-card-title">Панель статистики для адміна</h2>
             <p className="app-card-text" style={{ marginBottom: 16 }}>
-                Тут відображається зведена статистика по користувачах та аналізах зображень
+                Тут відображається зведена статистика по користувачах та проаналізованих зображень
                 у системі.
             </p>
 
@@ -87,7 +87,7 @@ export default function AdminPanel() {
                     </thead>
                     <tbody>
                     <tr>
-                        <td>AI-детектор</td>
+                        <td>ШІ</td>
                         <td style={{ textAlign: "right" }}>
                             <span className={scoreClass(scores.avg_ai)}>
                                 {formatScore(scores.avg_ai)}
@@ -119,7 +119,7 @@ export default function AdminPanel() {
                         </td>
                     </tr>
                     <tr>
-                        <td>Підсумкова оцінка (fusion)</td>
+                        <td>Підсумкова оцінка </td>
                         <td style={{ textAlign: "right" }}>
                             <span className={scoreClass(scores.avg_fusion)}>
                                 {formatScore(scores.avg_fusion)}

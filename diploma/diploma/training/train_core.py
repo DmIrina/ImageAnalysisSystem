@@ -100,7 +100,6 @@ def train_one(model,
                 print("Early stopping triggered.")
                 break
 
-    # повертаємо найкращий стан
     model.load_state_dict(best_state)
     return model
 
@@ -175,7 +174,6 @@ def load_or_train(model_name,
     if classes_override is not None:
         classes = classes_override
     else:
-        # працює і для ImageFolder, і для Subset(ImageFolder)
         base_ds = val_dl.dataset
         while isinstance(base_ds, Subset):
             base_ds = base_ds.dataset
@@ -188,7 +186,8 @@ def load_or_train(model_name,
         pos_idx = classes.index(pos_label)
 
     p, y = collect_probs(model, val_dl, positive_index=pos_idx)
-    return p, y
+    y_bin = (y == pos_idx).astype(int)
+    return p, y_bin
 
 
 def train_ai_detector(
@@ -207,29 +206,20 @@ def train_ai_detector(
     train_ds = base_train_dl.dataset
     val_ds = base_val_dl.dataset
 
-    # ЗБЕРІГАЄМО ОРИГІНАЛЬНІ КЛАСИ (перед Subset)
     original_classes = classes
 
-    # 2. Робимо підмножину train
     if max_train_samples is not None and max_train_samples < len(train_ds):
         indices = np.random.choice(len(train_ds), size=max_train_samples, replace=False)
         train_ds = Subset(train_ds, indices)
 
-    # 3. Робимо підмножину val
     if max_val_samples is not None and max_val_samples < len(val_ds):
         indices = np.random.choice(len(val_ds), size=max_val_samples, replace=False)
         val_ds = Subset(val_ds, indices)
 
-    # 4. Нові лоадери
     train_dl = DataLoader(train_ds, batch_size=32, shuffle=True, num_workers=2)
     val_dl = DataLoader(val_ds, batch_size=32, shuffle=False, num_workers=2)
 
-    # 5. Builder з частковим розмороженням блоків
     vit_builder = partial(build_ai_vit, unfreeze_last_n_blocks=2)
-
-    # 6. Коректний виклик load_or_train — ПЕРЕДАЄМО original_classes
-
-    # як і було — формуємо train_dl, val_dl, vit_builder
 
     ai_p, ai_y = load_or_train(
         "ai_vit_b16",
@@ -283,7 +273,7 @@ def compute_binary_metrics(
     try:
         auc = roc_auc_score(y_true, y_prob)
     except ValueError:
-        auc = float("nan")  # якщо у y_true тільки один клас
+        auc = float("nan")
 
     cm = confusion_matrix(y_true, y_pred)
 

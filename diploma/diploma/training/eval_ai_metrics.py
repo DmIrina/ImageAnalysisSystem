@@ -16,8 +16,10 @@ def main():
     print(f"[AI EVAL] Models dir: {MODELS_DIR}")
     print("[AI EVAL] Loading existing ai_vit_b16 and evaluating on val set...")
 
-    # do_train=False → тільки інференс + метрики
-    ai_p, ai_y, ai_metrics = train_ai_detector(do_train=False)
+    ai_p, ai_y, ai_metrics = train_ai_detector(
+        do_train=False,
+        max_val_samples=1000,
+    )
 
     print(f"[AI EVAL] Done. Val samples: {len(ai_y)}")
 

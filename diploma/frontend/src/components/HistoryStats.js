@@ -299,7 +299,7 @@ export default function HistoryStats() {
                 </div>
             </div>
 
-            {/* НОВЕ: Лінійний графік динаміки fusion у часі */}
+            {/* Лінійний графік динаміки fusion у часі */}
             {timelineData.length > 0 && (
                 <div style={{marginTop: 24}}>
                     <h3 className="history-stat-title" style={{marginBottom: 8}}>
@@ -335,7 +335,7 @@ export default function HistoryStats() {
                 </div>
             )}
 
-            {/* НОВЕ: Топ-5 найбільш підозрілих зображень */}
+            {/* НОВЕ: Топ найбільш підозрілих зображень */}
             {topSuspicious.length > 0 && (
                 <div style={{marginTop: 24}}>
                     <h3 className="history-stat-title" style={{marginBottom: 8}}>

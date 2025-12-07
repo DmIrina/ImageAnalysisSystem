@@ -14,7 +14,6 @@ class ImageHistoryBase(BaseModel):
 
 
 class ImageHistoryCreate(ImageHistoryBase):
-    # analysis_raw можна теж передавати, але зазвичай ми її формуємо на бекенді
     analysis_raw: Optional[str] = None
 
 

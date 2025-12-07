@@ -2,7 +2,6 @@
 import pdfMake from "pdfmake/build/pdfmake.js";
 import pdfFonts from "pdfmake/build/vfs_fonts.js";
 
-// Ініціалізація шрифтів pdfMake (важливо зробити ОДИН раз)
 pdfMake.vfs = pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : pdfFonts.vfs;
 
 export { pdfMake };

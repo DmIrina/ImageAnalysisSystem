@@ -2,10 +2,10 @@
 
 from typing import List
 
-from backend.src.auth.dependencies import get_current_user  # де в тебе логіка JWT / поточного користувача
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from backend.src.auth.dependencies import get_current_user
 from backend.src.db import get_db
 from backend.src.models.image_history import ImageHistory
 from backend.src.models.user import User

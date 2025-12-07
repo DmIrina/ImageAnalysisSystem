@@ -5,14 +5,10 @@ from typing import Dict
 import numpy as np
 
 # ==== Ваги візуальних модулів ====
-# Обидва модулі (AI та MVSS) вважаємо однаково важливими.
-# Ваги будуть нормалізовані всередині _combine_visual_scores().
 AI_WEIGHT = 1.0  # детектор ШІ (ViT)
 MANIP_WEIGHT = 1.0  # детектор маніпуляцій (MVSS / Photoshop)
 
 # ==== Метадані (EXIF) ====
-# Метадані впливають тільки тоді, коли metadata_score ДУЖЕ високий
-# (наприклад, у EXIF явно вказаний генератор ШІ або інший "поганий" софт).
 META_SUSP_THRESHOLD = 0.75  # з якого значення metadata_score вважаємо EXIF реально підозрілим
 META_MAX_BOOST = 0.25  # максимум, наскільки метадані можуть підняти підозрілість
 
@@ -25,14 +21,10 @@ def _clip01(x: float) -> float:
 def build_fusion_features(sample: Dict[str, float]) -> Dict[str, float]:
     """
     Допоміжна функція для логування / аналізу.
-    НЕ використовується в розрахунку fusion_score, а просто зручно
-    зводить усі модульні скори в один словник.
     """
     return {
         "ai_score": float(sample.get("ai_score", 0.0)),
         "manipulation_score": float(sample.get("manipulation_score", 0.0)),
-        # patch_score залишаємо для сумісності (для логів / JSON / UI),
-        # але він НЕ впливає на підсумковий fusion_score:
         "patch_score": float(sample.get("patch_score", 0.0)),
         "metadata_score": float(sample.get("metadata_score", 0.0)),
     }
@@ -58,17 +50,17 @@ def _combine_visual_scores(
       S_vis = 1 - Π (1 - s_i)^{w_i}
     """
 
-    # 1. Кліп до [0,1]
+    # кліп до [0,1]
     s_ai = _clip01(ai_score)
     s_manip = _clip01(manipulation_score)
 
     scores = np.array([s_ai, s_manip], dtype=np.float32)
 
-    # 2. Нормалізовані ваги
+    # нормалізовані ваги
     weights = np.array([AI_WEIGHT, MANIP_WEIGHT], dtype=np.float32)
     weights = weights / (weights.sum() + 1e-8)
 
-    # 3. Noisy-OR: S = 1 - Π (1 - s_i)^{w_i}
+    # Noisy-OR: S = 1 - Π (1 - s_i)^{w_i}
     one_minus = 1.0 - scores
     one_minus = np.clip(one_minus, 0.0, 1.0)  # захист від артефактів
     combined = 1.0 - float(np.prod(one_minus ** weights))
@@ -102,17 +94,13 @@ def _apply_metadata_boost(
     m = _clip01(metadata_score)
 
     if m <= META_SUSP_THRESHOLD:
-        # метадані нормальні або відсутні → не втручаємось
         return s
 
-    # Нормалізуємо “надлишок” підозрілості над порогом
     norm = (m - META_SUSP_THRESHOLD) / (1.0 - META_SUSP_THRESHOLD + 1e-8)
     norm = float(max(0.0, min(1.0, norm)))
 
-    # Додатковий буст до підозрілості
     boost = META_MAX_BOOST * norm
 
-    # Плавно збільшуємо підозрілість, не виходячи за 1.0
     s_final = s + boost * (1.0 - s)
     return _clip01(s_final)
 

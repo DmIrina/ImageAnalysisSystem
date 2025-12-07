@@ -6,7 +6,6 @@ from typing import Any, Dict
 
 from PIL import Image, ExifTags
 
-# Ключові слова для поля Software, які сигналять про явне втручання
 EDIT_SOFTWARE_KEYWORDS = [
     "photoshop",
     "lightroom",
@@ -66,7 +65,6 @@ def analyze_metadata(img: Image.Image) -> Dict[str, Any]:
 
     exif_dict = _safe_get_exif(img)
 
-    # Взагалі немає EXIF → нейтрально, не впливає на інтегральну оцінку
     if not exif_dict:
         return {
             "metadata_score": 0.0,
@@ -83,18 +81,15 @@ def analyze_metadata(img: Image.Image) -> Dict[str, Any]:
     score = 0.0
     reasons: list[str] = []
 
-    # 1) Аналіз поля Software
     if software:
         s_low = software.lower()
 
-        # 1.1. Явні AI- або генеративні сервіси
         if any(kw in s_low for kw in AI_SOFTWARE_KEYWORDS):
             score = max(score, 1.0)
             reasons.append(
                 "Поле Software містить згадки про AI / генеративні сервіси (висока підозра редагування)."
             )
 
-        # 1.2. Популярні графічні редактори
         elif any(kw in s_low for kw in EDIT_SOFTWARE_KEYWORDS):
             score = max(score, 0.85)
             reasons.append(
@@ -102,12 +97,10 @@ def analyze_metadata(img: Image.Image) -> Dict[str, Any]:
             )
 
         else:
-            # Наприклад, вбудлене ПЗ камери чи простий імпортер
             reasons.append(
                 "Поле Software присутнє, але не містить явних ознак складного редагування."
             )
 
-    # 2) Перевірка ключових полів (Make/Model/DateTime)
     missing_core = []
     if not make:
         missing_core.append("Make")
@@ -117,15 +110,12 @@ def analyze_metadata(img: Image.Image) -> Dict[str, Any]:
         missing_core.append("DateTime")
 
     if missing_core:
-        # Якщо є EXIF, але немає базових полів — це трохи підозріло,
-        # але не «максимально», якщо немає редакторів
         if score < 0.85:
             score = max(score, 0.6)
         reasons.append(
             "EXIF неповний (відсутні поля: " + ", ".join(missing_core) + ")."
         )
 
-    # 3) Якщо жодної сильної ознаки не знайшли — залишаємо 0.0
     if score == 0.0 and not reasons:
         reasons.append("EXIF виглядає типовим; явних ознак редагування не виявлено.")
 

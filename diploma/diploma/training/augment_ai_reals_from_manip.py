@@ -1,9 +1,4 @@
 # training/augment_ai_reals_from_manip.py
-"""
-augment_ai_reals_from_manip.py
-Домішує частину зображень із data/manipulated/* у data/train/real і data/val/real,
-щоб AI-детектор бачив "живі" фотографії як клас real (NOT AI).
-"""
 
 import random
 import shutil
@@ -11,27 +6,22 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-# База проєкту (.. відносно цього файлу)
 BASE = Path(__file__).resolve().parents[1]
 DATA = BASE / "data"
 
-# Папки manip-датасету
 MANIP_TRAIN_REAL = DATA / "manipulated" / "train" / "real"
 MANIP_TRAIN_MANIP = DATA / "manipulated" / "train" / "manipulated"
 MANIP_VAL_REAL = DATA / "manipulated" / "val" / "real"
 MANIP_VAL_MANIP = DATA / "manipulated" / "val" / "manipulated"
 
-# Куди домішуємо – AI-датасет
 AI_TRAIN_REAL = DATA / "train" / "real"
 AI_VAL_REAL = DATA / "val" / "real"
 
-# Скільки картинок беремо з кожної папки (можеш підкрутити)
 N_TRAIN_FROM_REAL = 2000
 N_TRAIN_FROM_MANIP = 2000
 N_VAL_FROM_REAL = 500
 N_VAL_FROM_MANIP = 500
 
-# Маркер, щоб не додавати двічі
 MARKER = DATA / "ai_reals_from_manip.marker"
 
 
@@ -73,7 +63,7 @@ def main():
     random.seed(42)
 
     if MARKER.exists():
-        log("Маркер уже існує – домішування вже було виконано. Якщо хочеш перезапустити, видали marker та extra-файли.")
+        log("Маркер уже існує – домішування вже було виконано.")
         return
 
     log(f"BASE = {BASE}")

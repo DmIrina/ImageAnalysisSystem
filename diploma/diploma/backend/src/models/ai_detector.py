@@ -21,5 +21,4 @@ def build_ai_vit(num_classes: int = 2, pretrained: bool = True, freeze_backbone:
 
 
 def get_vit_cam_layer(model):
-    # для timm vit_base_patch16_224 зазвичай підходить останній блок
     return model.blocks[-1].norm1
