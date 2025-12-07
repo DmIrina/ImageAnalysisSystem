@@ -1,9 +1,9 @@
 // frontend/src/components/modules/PatchModule.jsx
 import React from "react";
 import HeatmapCanvas from "../HeatmapCanvas";
-import { pdfMake, heatmapToDataUrl, buildModuleFileName } from "../../utils/reportUtils";
+import {pdfMake, heatmapToDataUrl, buildModuleFileName} from "../../utils/reportUtils";
 
-export default function PatchModule({ results, originalFileName }) {
+export default function PatchModule({results, originalFileName}) {
     const patchScore = results?.patch_score ?? null;
 
     let patchHeatmap =
@@ -27,7 +27,7 @@ export default function PatchModule({ results, originalFileName }) {
         patchHeatmap[0].length > 0;
 
     const handleDownloadJson = () => {
-        const { fileName, now } = buildModuleFileName(originalFileName, "patch");
+        const {fileName, now} = buildModuleFileName(originalFileName, "patch");
 
         const payload = {
             module: "patch_local_artifacts",
@@ -50,16 +50,16 @@ export default function PatchModule({ results, originalFileName }) {
     };
 
     const handleDownloadPdf = () => {
-        const { fileName, now } = buildModuleFileName(originalFileName, "patch");
+        const {fileName, now} = buildModuleFileName(originalFileName, "patch");
         const mapUrl = hasHeatmap ? heatmapToDataUrl(patchHeatmap) : null;
 
         const docDefinition = {
             content: [
-                { text: "Patch / Local Artifacts Module Report", style: "header" },
+                {text: "Patch / Local Artifacts Module Report", style: "header"},
 
                 {
                     columns: [
-                        { text: `File: ${originalFileName || "-"}`, width: "50%" },
+                        {text: `File: ${originalFileName || "-"}`, width: "50%"},
                         {
                             text: `Generated at: ${now.toLocaleString()}`,
                             width: "50%",
@@ -89,10 +89,10 @@ export default function PatchModule({ results, originalFileName }) {
             ].filter(Boolean),
 
             styles: {
-                header: { fontSize: 18, bold: true, margin: [0, 0, 0, 8] },
-                subheader: { fontSize: 12, bold: true },
+                header: {fontSize: 18, bold: true, margin: [0, 0, 0, 8]},
+                subheader: {fontSize: 12, bold: true},
             },
-            defaultStyle: { fontSize: 11 },
+            defaultStyle: {fontSize: 11},
         };
 
         pdfMake.createPdf(docDefinition).download(`${fileName}.pdf`);
@@ -100,33 +100,36 @@ export default function PatchModule({ results, originalFileName }) {
 
     return (
         <div>
-            <h3 className="text-lg font-semibold mb-2">Патч-аналіз</h3>
+            <h3 className="text-lg font-semibold mb-2">Патч-аналіз (масштаб локальних аномалій)</h3>
 
             <p className="mb-3">
-                Середня локальна підозрілість (0..1):
-                <b> {patchScore != null ? patchScore.toFixed(3) : "—"}</b>
+                Середня локальна підозрілість:
+                <b> {patchScore != null ? `${(patchScore * 100).toFixed(2)}%` : "—"}</b>
             </p>
 
             <p className="text-sm text-gray-700 mb-2">
-                Цей модуль агрегує інформацію про локальні артефакти, використовуючи
-                карту підозрілих ділянок (з модуля маніпуляцій / fusion). Високе значення
-                означає, що значна частина зображення містить аномальні області.
+                <p>Цей показник показує, наскільки велика частина зображення могла бути відредагована.
+                    Якщо підозрілі ділянки трапляються у багатьох місцях кадру, це може означати масштабне втручання у
+                    зображення.</p>
+
+                <p>Теплова карта підсвічує фрагменти, де можливі зміни:
+                    чим більше таких зон — тим більша ймовірність, що редагування вплинуло на зміст фото.</p>
             </p>
 
             {hasHeatmap ? (
                 <>
                     <p className="text-sm text-gray-700 mb-2">
-                        На heatmap підсвічені ділянки з найбільшою локальною підозрілістю.
+                        На тепловій карті підсвічені ділянки з найбільшою локальною підозрілістю.
                     </p>
-                    <HeatmapCanvas data={patchHeatmap} width={256} height={256} />
+                    <HeatmapCanvas data={patchHeatmap} width={256} height={256}/>
                 </>
             ) : (
                 <p className="text-sm text-gray-500">
-                    Дані heatmap для локальних артефактів відсутні.
+                    Дані теплової картт для локальних артефактів відсутні.
                 </p>
             )}
 
-            <div style={{ marginTop: 16, display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div style={{marginTop: 16, display: "flex", gap: 12, flexWrap: "wrap"}}>
                 <button type="button" className="secondary-button" onClick={handleDownloadPdf}>
                     Завантажити PDF (патчі)
                 </button>

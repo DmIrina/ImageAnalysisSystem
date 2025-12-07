@@ -12,9 +12,9 @@ export default function ResultTabs({ results, originalFileName, previewUrl }) {
     if (!results) return null;
 
     const tabs = [
-        { id: "ai", label: "AI-аналіз" },
+        { id: "ai", label: "ШІ-аналіз" },
         { id: "manip", label: "Маніпуляції" },
-        { id: "patch", label: "Патчі / локальні артефакти" },
+        { id: "patch", label: "Патчі" },
         { id: "meta", label: "Метадані (EXIF)" },
         { id: "fusion", label: "Підсумковий результат" },
     ];

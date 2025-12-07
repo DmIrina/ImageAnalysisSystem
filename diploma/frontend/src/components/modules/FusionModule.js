@@ -1,5 +1,4 @@
 // frontend/src/components/modules/FusionModule.js
-// frontend/src/components/modules/FusionModule.js
 import React from "react";
 import { pdfMake, heatmapToDataUrl, buildModuleFileName } from "../../utils/reportUtils";
 
@@ -47,8 +46,6 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
                         module: "fusion_overall",
                         file: originalFileName || null,
                         generated_at: now.toISOString(),
-                        // Зберігаємо все, як приходить із backend
-                        // fusion_score тут = підозрілість
                         results,
                         derived: {
                             credibility,
@@ -207,14 +204,14 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
 
             {suspicionPercent != null && (
                 <p className="text-sm text-gray-700 mb-2">
-                    Приблизний рівень <b>підозрілості</b> (fusion_score):{" "}
+                    Приблизний рівень <b>підозрілості</b> зображення:{" "}
                     <b>{suspicionPercent}%</b>.
                 </p>
             )}
 
             <p className="text-sm text-gray-700 mb-3">
-                Чим <b>вищий</b> показник достовірності, тим більше система довіряє
-                зображенню. Високе значення <code>fusion_score</code> означає, що один
+                Чим вищий показник достовірності, тим більше система довіряє
+                зображенню. Високе значення показника підозрілості означає, що один
                 або кілька модулів (AI, маніпуляції, патчі, метадані) виявили суттєві
                 ознаки фейку чи редагування.
             </p>

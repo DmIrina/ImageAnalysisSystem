@@ -83,8 +83,8 @@ export default function ExifModule({ results, originalFileName }) {
             <h3 className="text-lg font-semibold mb-2">Метадані (EXIF)</h3>
 
             <p className="mb-2">
-                Інтегральна оцінка <b>підозрілості метаданих</b> (0..1):
-                <b> {metaScore != null ? metaScore.toFixed(3) : "—"}</b>
+                Інтегральна оцінка підозрілості метаданих:
+                <b> {metaScore != null ? `${(metaScore * 100).toFixed(2)}%` : "—"}</b>
             </p>
 
             {impactText && (
