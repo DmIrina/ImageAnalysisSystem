@@ -570,11 +570,6 @@ body {
     padding-top: 14px;
 }
 
-/*!* блок із кнопками "Аналіз / Моя історія" *!*/
-/*.section-switch {*/
-/*    !* сама риска вже буде через .section-block + .section-block *!*/
-/*}*/
-
 /* ==== Підсвітка числових значень (AI, manip, patch, meta, fusion) ==== */
 
 .score {
@@ -689,14 +684,6 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
-
-
-/*.upload-preview {*/
-/*    margin-top: 10px;*/
-/*    max-width: 100%;*/
-/*    border-radius: 12px;*/
-/*    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.25);*/
-/*}*/
 
 .view-switcher {
     display: flex;

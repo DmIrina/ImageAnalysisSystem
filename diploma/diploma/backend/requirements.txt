@@ -9,3 +9,9 @@ opencv-python
 tqdm
 pandas
 datasets
+python-multipart
+SQLAlchemy
+psycopg2-binary
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic[email]
