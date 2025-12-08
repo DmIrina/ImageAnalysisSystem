@@ -24,9 +24,9 @@ export default function FusionModule({results, originalFileName, previewUrl}) {
     } = results;
 
     // fusion_score з backend = ПІДОЗРІЛІСТЬ у [0,1]
-    const credibility =
-        typeof fusion_score === "number" ? fusion_score : null;
     const suspicion =
+        typeof fusion_score === "number" ? fusion_score : null;
+    const credibility =
         typeof fusion_score === "number" ? 1 - fusion_score : null;
 
     const credibilityPercent =

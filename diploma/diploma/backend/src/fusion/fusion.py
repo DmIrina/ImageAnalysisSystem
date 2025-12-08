@@ -150,4 +150,6 @@ def fusion_predict(
 
     # 3. Перетворюємо підозрілість у достовірність
     authenticity = 1.0 - final_suspicion
-    return _clip01(authenticity)
+    final_suspicion = 1.0 - authenticity
+    # return _clip01(authenticity)
+    return _clip01(final_suspicion)

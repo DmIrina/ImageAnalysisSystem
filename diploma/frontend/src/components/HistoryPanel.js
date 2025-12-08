@@ -97,7 +97,7 @@ export default function HistoryPanel() {
                                     const manip = parsed?.manip ?? null;
                                     const patch = parsed?.patch ?? null;
                                     const meta = parsed?.meta ?? null;
-                                    const fusion = (1 - parsed?.fusion) ?? null;
+                                    const fusion = parsed?.fusion ?? null;
 
                                     const created = new Date(row.created_at);
 

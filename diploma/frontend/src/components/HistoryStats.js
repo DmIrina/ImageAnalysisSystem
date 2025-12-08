@@ -333,10 +333,10 @@ export default function HistoryStats() {
             {topSuspicious.length > 0 && (
                 <div style={{marginTop: 24}}>
                     <h3 className="history-stat-title" style={{marginBottom: 8}}>
-                        Топ найменш підозрілих зображень
+                        Топ найбільш підозрілих зображень
                     </h3>
                     <p className="history-stat-sub" style={{marginBottom: 8}}>
-                        За спаданням інтегрального показника fusion.
+                        За спаданням показника підозрілості.
                     </p>
                     <table className="history-table">
                         <thead>
