@@ -1,22 +1,22 @@
 // frontend/src/components/ResultTabs.jsx
-import React, { useState } from "react";
+import React, {useState} from "react";
 import AIModule from "./modules/AIModule";
 import ManipModule from "./modules/ManipModule";
 import PatchModule from "./modules/PatchModule";
 import ExifModule from "./modules/ExifModule";
 import FusionModule from "./modules/FusionModule";
 
-export default function ResultTabs({ results, originalFileName, previewUrl }) {
+export default function ResultTabs({results, originalFileName, previewUrl}) {
     const [active, setActive] = useState("ai");
 
     if (!results) return null;
 
     const tabs = [
-        { id: "ai", label: "ШІ-аналіз" },
-        { id: "manip", label: "Маніпуляції" },
-        { id: "patch", label: "Патчі" },
-        { id: "meta", label: "Метадані (EXIF)" },
-        { id: "fusion", label: "Підсумковий результат" },
+        {id: "ai", label: "ШІ-аналіз"},
+        {id: "manip", label: "Маніпуляції"},
+        {id: "patch", label: "Патчі"},
+        {id: "meta", label: "Метадані (EXIF)"},
+        {id: "fusion", label: "Підсумковий результат"},
     ];
 
     return (
@@ -33,7 +33,7 @@ export default function ResultTabs({ results, originalFileName, previewUrl }) {
                 ))}
             </div>
 
-            <div className="app-card" style={{ marginTop: 12 }}>
+            <div className="app-card" style={{marginTop: 12}}>
                 {active === "ai" && (
                     <AIModule
                         results={results}

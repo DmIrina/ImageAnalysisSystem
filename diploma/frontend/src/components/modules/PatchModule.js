@@ -125,7 +125,7 @@ export default function PatchModule({results, originalFileName}) {
                 </>
             ) : (
                 <p className="text-sm text-gray-500">
-                    Дані теплової картт для локальних артефактів відсутні.
+                    Дані теплової карти для локальних артефактів відсутні.
                 </p>
             )}
 

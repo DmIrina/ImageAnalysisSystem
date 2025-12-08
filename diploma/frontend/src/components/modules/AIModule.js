@@ -1,9 +1,9 @@
 // frontend/src/components/modules/AIModule.jsx
 import React from "react";
 import HeatmapCanvas from "../HeatmapCanvas";
-import { pdfMake, heatmapToDataUrl, buildModuleFileName } from "../../utils/reportUtils";
+import {pdfMake, heatmapToDataUrl, buildModuleFileName} from "../../utils/reportUtils";
 
-export default function AIModule({ results, originalFileName }) {
+export default function AIModule({results, originalFileName}) {
     const aiScore = results?.ai_score ?? null;
     const aiHeatmap = results?.ai_heatmap ?? null;
 
@@ -17,7 +17,7 @@ export default function AIModule({ results, originalFileName }) {
         aiHeatmap[0].length > 0;
 
     const handleDownloadJson = () => {
-        const { fileName, now } = buildModuleFileName(originalFileName, "ai");
+        const {fileName, now} = buildModuleFileName(originalFileName, "ai");
         const payload = {
             module: "ai_detector",
             file: originalFileName || null,
@@ -38,15 +38,15 @@ export default function AIModule({ results, originalFileName }) {
     };
 
     const handleDownloadPdf = () => {
-        const { fileName, now } = buildModuleFileName(originalFileName, "ai");
+        const {fileName, now} = buildModuleFileName(originalFileName, "ai");
         const mapUrl = heatmapToDataUrl(aiHeatmap);
 
         const docDefinition = {
             content: [
-                { text: "AI-detector module report", style: "header" },
+                {text: "AI-detector module report", style: "header"},
                 {
                     columns: [
-                        { text: `File: ${originalFileName || "-"}`, width: "50%" },
+                        {text: `File: ${originalFileName || "-"}`, width: "50%"},
                         {
                             text: `Generated at: ${now.toLocaleString()}`,
                             width: "50%",
@@ -71,8 +71,8 @@ export default function AIModule({ results, originalFileName }) {
                 },
             ].filter(Boolean),
             styles: {
-                header: { fontSize: 18, bold: true, margin: [0, 0, 0, 8] },
-                subheader: { fontSize: 12, bold: true },
+                header: {fontSize: 18, bold: true, margin: [0, 0, 0, 8]},
+                subheader: {fontSize: 12, bold: true},
             },
             defaultStyle: {
                 fontSize: 11,
@@ -93,7 +93,8 @@ export default function AIModule({ results, originalFileName }) {
 
             <p className="text-sm text-gray-600 mb-2">
                 Модуль визначає, чи схоже зображення на таке, що створене нейромережею.
-                Також система показує карту, яка відображає, на які частини зображення зверталася увага, приймаючи рішення.
+                Також система показує карту, яка відображає, на які частини зображення зверталася увага, приймаючи
+                рішення.
             </p>
 
             {hasHeatmap ? (
@@ -101,7 +102,7 @@ export default function AIModule({ results, originalFileName }) {
                     <p className="text-sm text-gray-700 mb-1">
                         Карту активацій (heatmap) показано нижче:
                     </p>
-                    <HeatmapCanvas data={aiHeatmap} width={256} height={256} />
+                    <HeatmapCanvas data={aiHeatmap} width={256} height={256}/>
                 </div>
             ) : (
                 <p className="text-sm text-gray-500 mt-2">
@@ -109,7 +110,7 @@ export default function AIModule({ results, originalFileName }) {
                 </p>
             )}
 
-            <div style={{ marginTop: 16, display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div style={{marginTop: 16, display: "flex", gap: 12, flexWrap: "wrap"}}>
                 <button
                     type="button"
                     className="secondary-button"

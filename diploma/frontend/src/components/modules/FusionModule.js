@@ -1,8 +1,8 @@
 // frontend/src/components/modules/FusionModule.js
 import React from "react";
-import { pdfMake, heatmapToDataUrl, buildModuleFileName } from "../../utils/reportUtils";
+import {pdfMake, heatmapToDataUrl, buildModuleFileName} from "../../utils/reportUtils";
 
-export default function FusionModule({ results, originalFileName, previewUrl }) {
+export default function FusionModule({results, originalFileName, previewUrl}) {
     if (!results) {
         return (
             <div>
@@ -24,7 +24,7 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
     } = results;
 
     // fusion_score з backend = ПІДОЗРІЛІСТЬ у [0,1]
-    const credibility  =
+    const credibility =
         typeof fusion_score === "number" ? fusion_score : null;
     const suspicion =
         typeof fusion_score === "number" ? 1 - fusion_score : null;
@@ -38,7 +38,7 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
         typeof v === "number" ? v.toFixed(digits) : "—";
 
     const handleDownloadJson = () => {
-        const { fileName, now } = buildModuleFileName(originalFileName, "fusion");
+        const {fileName, now} = buildModuleFileName(originalFileName, "fusion");
         const blob = new Blob(
             [
                 JSON.stringify(
@@ -56,7 +56,7 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
                     2
                 ),
             ],
-            { type: "application/json" }
+            {type: "application/json"}
         );
 
         const url = URL.createObjectURL(blob);
@@ -68,7 +68,7 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
     };
 
     const handleDownloadPdf = () => {
-        const { fileName, now } = buildModuleFileName(originalFileName, "fusion");
+        const {fileName, now} = buildModuleFileName(originalFileName, "fusion");
 
         const aiMapUrl = ai_heatmap ? heatmapToDataUrl(ai_heatmap) : null;
         const manipMapUrl = manip_heatmap ? heatmapToDataUrl(manip_heatmap) : null;
@@ -76,10 +76,10 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
 
         const docDefinition = {
             content: [
-                { text: "Image authenticity report (fusion)", style: "header" },
+                {text: "Image authenticity report (fusion)", style: "header"},
                 {
                     columns: [
-                        { text: `File: ${originalFileName || "-"}`, width: "50%" },
+                        {text: `File: ${originalFileName || "-"}`, width: "50%"},
                         {
                             text: `Generated at: ${now.toLocaleString()}`,
                             width: "50%",
@@ -102,7 +102,7 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
 
                 {
                     columns: [
-                        { text: "Overall authenticity (credibility):", style: "subheader" },
+                        {text: "Overall authenticity (credibility):", style: "subheader"},
                         {
                             text: credibilityPercent != null ? `${credibilityPercent} %` : "—",
                             style: "score",
@@ -118,7 +118,7 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
                     margin: [0, 0, 0, 10],
                 },
 
-                { text: "Module scores (0..1, suspiciousness):", style: "subheader", margin: [0, 6, 0, 4] },
+                {text: "Module scores (0..1, suspiciousness):", style: "subheader", margin: [0, 6, 0, 4]},
                 {
                     type: "none",
                     margin: [0, 0, 0, 10],
@@ -130,24 +130,24 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
                     ],
                 },
 
-                { text: "Heatmaps:", style: "subheader", margin: [0, 8, 0, 6] },
+                {text: "Heatmaps:", style: "subheader", margin: [0, 8, 0, 6]},
 
-                aiMapUrl && { text: "AI heatmap", style: "heatmapTitle", margin: [0, 2, 0, 2] },
-                aiMapUrl && { image: aiMapUrl, width: 220, margin: [0, 0, 0, 8] },
+                aiMapUrl && {text: "AI heatmap", style: "heatmapTitle", margin: [0, 2, 0, 2]},
+                aiMapUrl && {image: aiMapUrl, width: 220, margin: [0, 0, 0, 8]},
 
                 manipMapUrl && {
                     text: "Manipulation heatmap",
                     style: "heatmapTitle",
                     margin: [0, 2, 0, 2],
                 },
-                manipMapUrl && { image: manipMapUrl, width: 220, margin: [0, 0, 0, 8] },
+                manipMapUrl && {image: manipMapUrl, width: 220, margin: [0, 0, 0, 8]},
 
                 fusionMapUrl && {
                     text: "Fusion heatmap (combined suspiciousness)",
                     style: "heatmapTitle",
                     margin: [0, 2, 0, 2],
                 },
-                fusionMapUrl && { image: fusionMapUrl, width: 220, margin: [0, 0, 0, 12] },
+                fusionMapUrl && {image: fusionMapUrl, width: 220, margin: [0, 0, 0, 12]},
 
                 {
                     text:
@@ -230,7 +230,7 @@ export default function FusionModule({ results, originalFileName, previewUrl }) 
                 </div>
             </div>
 
-            <div style={{ marginTop: 16, display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div style={{marginTop: 16, display: "flex", gap: 12, flexWrap: "wrap"}}>
                 <button type="button" className="secondary-button" onClick={handleDownloadPdf}>
                     Завантажити PDF-звіт
                 </button>

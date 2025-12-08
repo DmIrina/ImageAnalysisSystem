@@ -21,6 +21,7 @@ from backend.src.models.ai_detector import build_ai_vit, get_vit_cam_layer
 from backend.src.models.image_history import ImageHistory
 from backend.src.models.mvss_manip import load_mvss_model, predict_mvss
 from backend.src.models.user import User
+from backend.src.routers import admin_model_metrics
 from backend.src.routers import auth, history, admin_stats
 from backend.src.utils.gradcam import ViTGradCAM
 from backend.src.utils.helpers import to_tensor
@@ -36,14 +37,15 @@ app = FastAPI(title="Image Analysis API")
 # ----- CORS -----
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # для розробки можна все; у проді звузиш
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 app.include_router(auth.router)
 app.include_router(history.router)
-app.include_router(admin_stats.router)  # НОВЕ
+app.include_router(admin_stats.router)
+app.include_router(admin_model_metrics.router)
 
 AI_POS_IDX = 0  # індекс класу "ai_generated"
 MANIP_POS_IDX = 0  # індекс класу "manipulated"

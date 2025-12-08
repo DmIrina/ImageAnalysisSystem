@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 
-export default function ToastMessage({ message, type = "info", onClose }) {
+export default function ToastMessage({message, type = "info", onClose}) {
     useEffect(() => {
         const timer = setTimeout(() => onClose(), 3000);
         return () => clearTimeout(timer);

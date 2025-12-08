@@ -14,7 +14,6 @@ import {
     Line,
 } from "recharts";
 
-// Та сама функція парсингу, що й у HistoryPanel
 function parseSummary(summary) {
     if (!summary || typeof summary !== "string") return null;
 
@@ -50,7 +49,6 @@ function formatScore(v) {
     return v.toFixed(3);
 }
 
-// Підрахунок агрегованих статистик
 function calculateStats(items) {
     if (!items || items.length === 0) return null;
 
@@ -182,21 +180,18 @@ export default function HistoryStats() {
 
     const pct = (part) => (total ? ((part / total) * 100).toFixed(1) + "%" : "0%");
 
-    // --- Дані для стовпчикової діаграми рівнів підозрілості ---
     const riskData = [
         {name: "Низька", value: lowCount},
         {name: "Середня", value: midCount},
         {name: "Висока", value: highCount},
     ];
 
-    // --- Додатково: таймлайн fusion у часі для LineChart ---
     const timelineData = items
         .map((row) => {
             const parsed = parseSummary(row.analysis_summary);
             if (!parsed || parsed.fusion == null) return null;
             const created = new Date(row.created_at);
             return {
-                // коротка дата/час для осі X
                 label: created.toLocaleString(),
                 fusion: parsed.fusion,
             };
@@ -204,7 +199,6 @@ export default function HistoryStats() {
         .filter(Boolean)
         .sort((a, b) => new Date(a.label) - new Date(b.label));
 
-    // --- Додатково: топ найбільш підозрілих зображення ---
     const topSuspicious = items
         .map((row) => {
             const parsed = parseSummary(row.analysis_summary);
@@ -335,7 +329,7 @@ export default function HistoryStats() {
                 </div>
             )}
 
-            {/* НОВЕ: Топ найбільш підозрілих зображень */}
+            {/* Топ найбільш підозрілих зображень */}
             {topSuspicious.length > 0 && (
                 <div style={{marginTop: 24}}>
                     <h3 className="history-stat-title" style={{marginBottom: 8}}>

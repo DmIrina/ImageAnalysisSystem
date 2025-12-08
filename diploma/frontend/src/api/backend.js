@@ -3,7 +3,6 @@ import axios from "axios";
 
 export const API_URL = "http://127.0.0.1:8000";
 
-// єдиний інстанс axios, до якого чіпляємо токен
 const axiosInstance = axios.create({
     baseURL: API_URL,
 });
@@ -16,7 +15,6 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
-// --- Аналіз зображення ---
 const postFile = (url, file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -29,6 +27,5 @@ const postFile = (url, file) => {
 
 export const analyzeAll = (file) => postFile("/analyze_full", file);
 
-// --- Історія поточного користувача ---
 export const fetchHistory = () =>
     axiosInstance.get("/history/me");

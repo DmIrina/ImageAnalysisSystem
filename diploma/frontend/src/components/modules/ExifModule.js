@@ -1,14 +1,14 @@
 // frontend/src/components/modules/ExifModule.jsx
 import React from "react";
-import { pdfMake, buildModuleFileName } from "../../utils/reportUtils";
+import {pdfMake, buildModuleFileName} from "../../utils/reportUtils";
 
-export default function ExifModule({ results, originalFileName }) {
+export default function ExifModule({results, originalFileName}) {
     const metaScore = results?.metadata_score ?? null;
     const metaSoftware = results?.metadata_software ?? null;
     const metaReason = results?.metadata_reason ?? null; // лише для UI
 
     const handleDownloadJson = () => {
-        const { fileName, now } = buildModuleFileName(originalFileName, "metadata");
+        const {fileName, now} = buildModuleFileName(originalFileName, "metadata");
         const payload = {
             module: "metadata_exif",
             file: originalFileName || null,
@@ -30,14 +30,14 @@ export default function ExifModule({ results, originalFileName }) {
     };
 
     const handleDownloadPdf = () => {
-        const { fileName, now } = buildModuleFileName(originalFileName, "metadata");
+        const {fileName, now} = buildModuleFileName(originalFileName, "metadata");
 
         const docDefinition = {
             content: [
-                { text: "Metadata / EXIF module report", style: "header" },
+                {text: "Metadata / EXIF module report", style: "header"},
                 {
                     columns: [
-                        { text: `File: ${originalFileName || "-"}`, width: "50%" },
+                        {text: `File: ${originalFileName || "-"}`, width: "50%"},
                         {
                             text: `Generated at: ${now.toLocaleString()}`,
                             width: "50%",
@@ -59,9 +59,9 @@ export default function ExifModule({ results, originalFileName }) {
                 // metadata_reason НАВМИСНО не додаємо в PDF
             ].filter(Boolean),
             styles: {
-                header: { fontSize: 18, bold: true, margin: [0, 0, 0, 8] },
+                header: {fontSize: 18, bold: true, margin: [0, 0, 0, 8]},
             },
-            defaultStyle: { fontSize: 11 },
+            defaultStyle: {fontSize: 11},
         };
 
         pdfMake.createPdf(docDefinition).download(`${fileName}.pdf`);
@@ -112,7 +112,7 @@ export default function ExifModule({ results, originalFileName }) {
                 </p>
             )}
 
-            <div style={{ marginTop: 16, display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div style={{marginTop: 16, display: "flex", gap: 12, flexWrap: "wrap"}}>
                 <button type="button" className="secondary-button" onClick={handleDownloadPdf}>
                     Завантажити PDF (метадані)
                 </button>

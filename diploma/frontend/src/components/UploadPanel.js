@@ -1,7 +1,7 @@
 // frontend/src/components/UploadPanel.jsx
 
-import React, { useState } from "react";
-import { analyzeAll } from "../api/backend";
+import React, {useState} from "react";
+import {analyzeAll} from "../api/backend";
 import ResultTabs from "./ResultTabs";
 
 export default function UploadPanel() {
@@ -30,7 +30,7 @@ export default function UploadPanel() {
         }
         setLoading(true);
         try {
-            const { data } = await analyzeAll(file);
+            const {data} = await analyzeAll(file);
             setResults(data);
         } catch (err) {
             console.error(err);
@@ -43,7 +43,7 @@ export default function UploadPanel() {
     return (
         <div>
             <h2 className="app-card-title">Аналіз достовірності зображення</h2>
-            <p className="app-card-text" style={{ marginBottom: 14 }}>
+            <p className="app-card-text" style={{marginBottom: 14}}>
                 Завантажте зображення, а потім натисніть кнопку «Почати аналіз»,
                 щоб виконати перевірку на генерацію ШІ, маніпуляції,
                 локальні артефакти та метадані.
@@ -78,7 +78,7 @@ export default function UploadPanel() {
                 onClick={handleAnalyze}
                 disabled={loading || !file}
                 className="primary-button"
-                style={{ marginTop: 16 }}
+                style={{marginTop: 16}}
             >
                 {loading ? "Аналіз виконується..." : "Почати аналіз"}
             </button>

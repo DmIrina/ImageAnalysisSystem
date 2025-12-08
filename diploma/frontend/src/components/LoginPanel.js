@@ -47,7 +47,7 @@ export default function LoginPanel({isAuthenticated, onAuthSuccess, onLogout}) {
                 const isAdmin = !!profile.data.is_admin;
 
                 showToast(`Вітаємо, ${name || "користувачу"}!`, "success");
-                onAuthSuccess && onAuthSuccess({ isAdmin, fullName: name });
+                onAuthSuccess && onAuthSuccess({isAdmin, fullName: name});
             } else {
                 if (!fullName.trim()) {
                     showToast("Введіть повне ім'я!", "error");

@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, {useRef, useEffect} from "react";
 
-export default function HeatmapCanvas({ data, width = 256, height = 256 }) {
+export default function HeatmapCanvas({data, width = 256, height = 256}) {
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ export default function HeatmapCanvas({ data, width = 256, height = 256 }) {
             ref={canvasRef}
             width={width}
             height={height}
-            style={{ borderRadius: 8, border: "1px solid #ddd" }}
+            style={{borderRadius: 8, border: "1px solid #ddd"}}
         />
     );
 }

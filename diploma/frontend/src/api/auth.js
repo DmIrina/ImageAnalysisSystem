@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "./backend";
+import {API_URL} from "./backend";
 
 export const register = (email, password, fullName) =>
     axios.post(`${API_URL}/auth/register`, {

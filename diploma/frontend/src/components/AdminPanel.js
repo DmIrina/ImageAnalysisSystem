@@ -1,6 +1,6 @@
 // frontend/src/components/AdminPanel.jsx
-import React, { useEffect, useState } from "react";
-import { getAdminOverview } from "../api/admin";
+import React, {useEffect, useState} from "react";
+import {getAdminOverview} from "../api/admin";
 
 function scoreClass(v) {
     if (v == null) return "score text-muted";
@@ -21,7 +21,7 @@ export default function AdminPanel() {
 
     useEffect(() => {
         getAdminOverview()
-            .then(({ data }) => setData(data))
+            .then(({data}) => setData(data))
             .catch((err) => {
                 console.error(err);
                 setError("Не вдалося завантажити статистику по користувачам.");
@@ -31,7 +31,7 @@ export default function AdminPanel() {
 
     if (loading) {
         return (
-            <p className="text-muted" style={{ textAlign: "center" }}>
+            <p className="text-muted" style={{textAlign: "center"}}>
                 Завантаження статистики по користувачам...
             </p>
         );
@@ -39,7 +39,7 @@ export default function AdminPanel() {
 
     if (error) {
         return (
-            <p style={{ color: "#dc2626", textAlign: "center" }}>
+            <p style={{color: "#dc2626", textAlign: "center"}}>
                 {error}
             </p>
         );
@@ -47,12 +47,12 @@ export default function AdminPanel() {
 
     if (!data) return null;
 
-    const { users, images, scores, fusion_distribution, top_users_by_images } = data;
+    const {users, images, scores, fusion_distribution, top_users_by_images} = data;
 
     return (
         <div>
             <h2 className="app-card-title">Панель статистики для адміна</h2>
-            <p className="app-card-text" style={{ marginBottom: 16 }}>
+            <p className="app-card-text" style={{marginBottom: 16}}>
                 Тут відображається зведена статистика по користувачах та проаналізованих зображень
                 у системі.
             </p>
@@ -82,13 +82,13 @@ export default function AdminPanel() {
                     <thead>
                     <tr>
                         <th>Модуль</th>
-                        <th style={{ textAlign: "right" }}>Середнє значення</th>
+                        <th style={{textAlign: "right"}}>Середнє значення</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>ШІ</td>
-                        <td style={{ textAlign: "right" }}>
+                        <td style={{textAlign: "right"}}>
                             <span className={scoreClass(scores.avg_ai)}>
                                 {formatScore(scores.avg_ai)}
                             </span>
@@ -96,7 +96,7 @@ export default function AdminPanel() {
                     </tr>
                     <tr>
                         <td>Маніпуляції</td>
-                        <td style={{ textAlign: "right" }}>
+                        <td style={{textAlign: "right"}}>
                             <span className={scoreClass(scores.avg_manip)}>
                                 {formatScore(scores.avg_manip)}
                             </span>
@@ -104,7 +104,7 @@ export default function AdminPanel() {
                     </tr>
                     <tr>
                         <td>Патчі / локальні артефакти</td>
-                        <td style={{ textAlign: "right" }}>
+                        <td style={{textAlign: "right"}}>
                             <span className={scoreClass(scores.avg_patch)}>
                                 {formatScore(scores.avg_patch)}
                             </span>
@@ -112,15 +112,15 @@ export default function AdminPanel() {
                     </tr>
                     <tr>
                         <td>Метадані</td>
-                        <td style={{ textAlign: "right" }}>
+                        <td style={{textAlign: "right"}}>
                             <span className={scoreClass(scores.avg_meta)}>
                                 {formatScore(scores.avg_meta)}
                             </span>
                         </td>
                     </tr>
                     <tr>
-                        <td>Підсумкова оцінка </td>
-                        <td style={{ textAlign: "right" }}>
+                        <td>Підсумкова оцінка</td>
+                        <td style={{textAlign: "right"}}>
                             <span className={scoreClass(scores.avg_fusion)}>
                                 {formatScore(scores.avg_fusion)}
                             </span>
@@ -157,7 +157,7 @@ export default function AdminPanel() {
                                 <div className="fusion-bar-track">
                                     <div
                                         className="fusion-bar-fill"
-                                        style={{ width: `${widthPercent}%` }}
+                                        style={{width: `${widthPercent}%`}}
                                     />
                                 </div>
                                 <div className="fusion-bar-count">{count}</div>
@@ -177,7 +177,7 @@ export default function AdminPanel() {
                             <tr>
                                 <th>Користувач</th>
                                 <th>Email</th>
-                                <th style={{ textAlign: "right" }}>Кількість зображень</th>
+                                <th style={{textAlign: "right"}}>Кількість зображень</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -185,7 +185,7 @@ export default function AdminPanel() {
                                 <tr key={u.user_id}>
                                     <td>{u.full_name || "—"}</td>
                                     <td>{u.email}</td>
-                                    <td style={{ textAlign: "right" }}>{u.images_count}</td>
+                                    <td style={{textAlign: "right"}}>{u.images_count}</td>
                                 </tr>
                             ))}
                             </tbody>
