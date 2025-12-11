@@ -93,7 +93,7 @@ def analyze_metadata(img: Image.Image) -> Dict[str, Any]:
         elif any(kw in s_low for kw in EDIT_SOFTWARE_KEYWORDS):
             score = max(score, 0.85)
             reasons.append(
-                "EXIF містить сліди графічного редактора (Photoshop/аналогічні)."
+                "EXIF містить сліди графічного редактора."
             )
 
         else:

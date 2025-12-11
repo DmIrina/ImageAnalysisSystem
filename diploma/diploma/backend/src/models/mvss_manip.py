@@ -49,7 +49,6 @@ def _pad_to_multiple_32(img: np.ndarray, mult: int = 32):
     if pad_h == 0 and pad_w == 0:
         return img, (h, w)
 
-    # падимо вниз і вправо (можна й по-іншому, але так простіше)
     img_padded = np.pad(
         img,
         ((0, pad_h), (0, pad_w), (0, 0)),

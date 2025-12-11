@@ -26,11 +26,9 @@ class ViTGradCAM:
         self._h_bwd = target_layer.register_full_backward_hook(self._hook_grads)
 
     def _hook_acts(self, module, inputs, output):
-        # output очікується [B, N, C] (токени)
         self.activations = output.detach()
 
     def _hook_grads(self, module, grad_input, grad_output):
-        # grad_output[0] – градієнти для того ж тензора [B, N, C]
         self.gradients = grad_output[0].detach()
 
     def __call__(self, x, class_idx=None):
@@ -49,17 +47,14 @@ class ViTGradCAM:
         if acts is None or grads is None:
             raise RuntimeError("ViTGradCAM: hooks did not capture activations/gradients.")
 
-        # пропускаємо CLS-токен (перший)
         acts = acts[:, 1:, :]  # [B, N-1, C]
         grads = grads[:, 1:, :]  # [B, N-1, C]
 
         B, N, C = grads.shape
         side = self.num_patches_side
         if side * side != N:
-            # про всяк випадок — спробуємо вивести side автоматично
             side = int(N ** 0.5)
 
-        # важливість токена = середнє абсолютних градієнтів по каналах
         token_importance = grads.abs().mean(dim=2)  # [B, N]
 
         # reshape до [B, 1, H, W]

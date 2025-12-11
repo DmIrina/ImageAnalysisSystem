@@ -55,7 +55,7 @@ export default function App() {
     return (
         <div className="app-root">
             <div className="app-header-block">
-                <h1>Система аналізу достовірності зображень</h1>
+                <h1>Інформаційна система аналізу достовірності зображень</h1>
             </div>
 
             <div className="card-block">
