@@ -1,12 +1,9 @@
-# backend/api.py
-
 import io
 import json
 from typing import Optional
 
 import numpy as np
 import torch
-import torch.nn.functional as F
 from PIL import Image
 from fastapi import Depends
 from fastapi import FastAPI
@@ -27,8 +24,6 @@ from backend.src.utils.gradcam import ViTGradCAM
 from backend.src.utils.helpers import to_tensor
 from backend.src.utils.metadata import analyze_metadata
 
-# backend/api.py
-
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 MODELS_DIR = "backend/models"
 
@@ -48,23 +43,22 @@ app.include_router(admin_stats.router)
 app.include_router(admin_model_metrics.router)
 
 AI_POS_IDX = 0  # індекс класу "ai_generated"
-MANIP_POS_IDX = 0  # індекс класу "manipulated"
 
 MVSS_MODEL_PATH = "thirdparty/mvss_net/ckpt/mvssnetplus_casia.pt"
 
 mvss_model = load_mvss_model(MVSS_MODEL_PATH)
 
 ai_model = build_ai_vit(num_classes=2, pretrained=False, freeze_backbone=False).to(DEVICE)
-ai_model.load_state_dict(torch.load(f"{MODELS_DIR}/ai_vit_b16.pt", map_location=DEVICE))
+try:
+    ai_model.load_state_dict(torch.load(f"{MODELS_DIR}/ai_vit_b16.pt", map_location=DEVICE))
+except FileNotFoundError:
+    print(f"Warning: {MODELS_DIR}/ai_vit_b16.pt not found. AI model will use random weights.")
+
 ai_model.eval()
 ai_cam = ViTGradCAM(ai_model, get_vit_cam_layer(ai_model))
 
 
 def prob_pos(logits: torch.Tensor, pos_idx: int) -> float:
-    """
-    Повертає ймовірність 'позитивного' класу з логітів.
-    pos_idx – індекс класу, який вважаємо підозрілим (ai_generated / manipulated).
-    """
     proba = torch.softmax(logits, dim=1)[0, pos_idx].item()
     return float(proba)
 
@@ -76,14 +70,11 @@ def read_image_with_size(upload: UploadFile) -> tuple[Image.Image, int]:
     return img, size
 
 
-def resize_heatmap(src: np.ndarray, target_shape) -> np.ndarray:
-    th, tw = target_shape
-    t = torch.from_numpy(src).float().unsqueeze(0).unsqueeze(0)  # 1x1xH xW
-    t = F.interpolate(t, size=(th, tw), mode="bilinear", align_corners=False)
-    return t[0, 0].cpu().numpy()
-
-
 def normalize_map(m: np.ndarray) -> np.ndarray:
+    """
+    Нормалізація теплової карти до діапазону [0, 1].
+    """
+    m = np.array(m)
     min_v = float(m.min())
     max_v = float(m.max())
     denom = max_v - min_v
@@ -99,13 +90,7 @@ def analyze_full(
         current_user: Optional[User] = Depends(get_current_user_optional),
 ):
     """
-    Повний мультимодальний аналіз:
-    - AI-детектор (ШІ) + GradCAM
-    - Детектор маніпуляцій (Photoshop) + GradCAM
-    - Патч-аналіз локальних артефактів
-    - Аналіз EXIF
-    - Злиття результатів (fusion)
-    Якщо current_user не None – записуємо історію в БД.
+    Повний мультимодальний аналіз.
     """
     img, file_size = read_image_with_size(file)
 
@@ -114,49 +99,48 @@ def analyze_full(
     cam_ai, logits_ai = ai_cam(x_ai)
     p_ai = prob_pos(logits_ai, AI_POS_IDX)
     ai_heatmap = cam_ai[0, 0].detach().cpu().numpy()
+    ai_norm = normalize_map(ai_heatmap)
 
-    # 2. MANIP DETECTOR (MVSS-Net++)
-    p_m, manip_heatmap = predict_mvss(mvss_model, np.array(img))
+    # 2. MANIPULATION DETECTOR (MVSS) & PATCHES
+    mvss_results = predict_mvss(mvss_model, np.array(img))
 
-    # 3. PATCH ANALYZER (на основі тієї ж MVSS heatmap)
-    # інтерпретуємо середнє значення heatmap як "середню локальну підозрілість"
-    patch_score = float(np.mean(manip_heatmap))
+    manip_score = mvss_results["manipulation_score"]
+    manip_heatmap = mvss_results["manip_heatmap"]
 
-    # 4. METADATA
+    patch_score = mvss_results["patch_score"]
+    patch_heatmap = mvss_results["patch_heatmap"]
+
+    # 3. METADATA
     meta = analyze_metadata(img)
     metadata_score = float(meta["metadata_score"])
 
-    # 5. FUSION
+    # 4. FUSION
     fusion_score = fusion_predict(
         ai_score=p_ai,
-        manipulation_score=p_m,
+        manipulation_score=manip_score,
         patch_score=patch_score,
         metadata_score=metadata_score,
     )
 
-    # 6. HEATMAPS
-    ai_norm = normalize_map(ai_heatmap)
-    manip_norm = normalize_map(manip_heatmap)
-    if manip_norm.shape != ai_norm.shape:
-        manip_norm_resized = resize_heatmap(manip_norm, ai_norm.shape)
-    else:
-        manip_norm_resized = manip_norm
-    combined_heatmap = np.maximum(ai_norm, manip_norm_resized)
-
+    # 5. Підготовка відповіді
     response = {
         "ai_score": round(p_ai, 3),
-        "manipulation_score": round(p_m, 3),
+        "ai_heatmap": ai_norm.tolist(),
+
+        "manipulation_score": round(manip_score, 3),
+        "manip_heatmap": manip_heatmap if isinstance(manip_heatmap, list) else manip_heatmap.tolist(),
         "patch_score": round(patch_score, 3),
+        "patch_heatmap": patch_heatmap if isinstance(patch_heatmap, list) else patch_heatmap.tolist(),
+
         "metadata_score": round(metadata_score, 3),
         "metadata_reason": meta["reason"],
         "metadata_software": meta.get("software", ""),
+
         "fusion_score": round(fusion_score, 3),
-        "ai_heatmap": ai_norm.tolist(),
-        "manip_heatmap": manip_norm.tolist(),
-        "fusion_heatmap": combined_heatmap.tolist(),
+        "fusion_heatmap": patch_heatmap if isinstance(patch_heatmap, list) else patch_heatmap.tolist(),
     }
 
-    # 7. Якщо користувач залогінений – зберігаємо історію
+    # 6. Збереження історії
     if current_user is not None:
         summary = (
             f"AI={response['ai_score']}, "
