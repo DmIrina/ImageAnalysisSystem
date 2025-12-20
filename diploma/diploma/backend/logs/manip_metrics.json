@@ -1,8 +1,25 @@
 {
-    "auc_score": 0.7715360206839816,
+  "model_name": "mvss_net",
+  "n_val_samples": 1037,
+  "evaluated_at": "2025-12-20T11:00:00.000000Z",
+  "metrics": {
+    "name": "Manipulation detector (MVSS-Net, positive = manipulated)",
+    "threshold": 0.5664,
     "accuracy": 0.7377049180327869,
-    "specificity": 0.6866141732283465,
-    "recall": 0.818407960199005,
     "precision": 0.6231060606060606,
-    "f1_score": 0.7075268817204301
+    "recall": 0.818407960199005,
+    "specificity": 0.6866141732283465,
+    "f1": 0.7075268817204301,
+    "roc_auc": 0.7715360206839816,
+    "confusion_matrix": [
+      [
+        436,
+        199
+      ],
+      [
+        73,
+        329
+      ]
+    ]
+  }
 }
