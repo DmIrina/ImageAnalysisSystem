@@ -22,10 +22,12 @@ ROOT_DIR = os.path.dirname(CURRENT_DIR)
 sys.path.append(ROOT_DIR)
 
 MODEL_PATH = os.path.join(ROOT_DIR, "thirdparty/mvss_net/ckpt/mvssnetplus_casia.pt")
-REAL_DIR = os.path.join(ROOT_DIR, "data/test_metrics/real")
-FAKE_DIR = os.path.join(ROOT_DIR, "data/test_metrics/fake")
+# REAL_DIR = os.path.join(ROOT_DIR, "data/test_metrics/real")
+# FAKE_DIR = os.path.join(ROOT_DIR, "data/test_metrics/fake")
+REAL_DIR = os.path.join(ROOT_DIR, "data/manipulated_old2/val/real")
+FAKE_DIR = os.path.join(ROOT_DIR, "data/manipulated_old2/val/manipulated")
 DEBUG_DIR = os.path.join(ROOT_DIR, "data/test_metrics/debug_errors")
-METRICS_FILE = os.path.join(ROOT_DIR, "metrics.json")
+METRICS_FILE = os.path.join(ROOT_DIR, "manip_metrics.json")
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -33,10 +35,6 @@ os.makedirs(DEBUG_DIR, exist_ok=True)
 
 
 def load_image(path):
-    """
-    Завантаження зображення через OpenCV (BGR -> RGB).
-    Це відповідає тому, як це робиться в бекенді.
-    """
     img_bgr = cv2.imread(path)
     if img_bgr is None:
         raise ValueError(f"Не вдалося завантажити зображення: {path}")
@@ -45,16 +43,12 @@ def load_image(path):
 
 
 def save_visualization(img_path, mask_input, score, label, threshold, output_dir):
-    """
-    Зберігає візуалізацію помилки: Оригінал + Маска + Накладання.
-    """
     filename = os.path.basename(img_path)
 
     orig = cv2.imread(img_path)
     if orig is None: return
     orig = cv2.resize(orig, (512, 512))
 
-    # Обробка маски
     if isinstance(mask_input, torch.Tensor):
         mask = mask_input.squeeze().cpu().numpy()
     else:
