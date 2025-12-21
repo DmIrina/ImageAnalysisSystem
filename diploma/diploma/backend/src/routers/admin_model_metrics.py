@@ -56,7 +56,6 @@ def admin_models_metrics(
         "recall": m.get("recall"),
         "f1": m.get("f1"),
         "roc_auc": m.get("roc_auc"),
-        # матриця помилок як 2x2 масив [[TN, FP], [FN, TP]]
         "confusion_matrix": m.get("confusion_matrix"),
         "source_file": str(ai_path),
     }

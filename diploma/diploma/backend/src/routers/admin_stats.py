@@ -45,8 +45,6 @@ def admin_overview(
     total_images = db.query(func.count(ImageHistory.id)).scalar() or 0
     images_last_week = db.query(func.count(ImageHistory.id)).filter(ImageHistory.created_at >= week_ago).scalar() or 0
     images_last_month = db.query(func.count(ImageHistory.id)).filter(ImageHistory.created_at >= month_ago).scalar() or 0
-
-    # --- Агрегати по оцінках (fusion, ai, manip, patch, metadata) ---
     rows = db.query(ImageHistory).all()
 
     sum_ai = sum_manip = sum_patch = sum_meta = sum_fusion = 0.0
@@ -54,7 +52,6 @@ def admin_overview(
 
     low = mid = high = 0  # за fusion
 
-    # розподіл fusion по інтервалах (0.0–0.1, 0.1–0.2, ... 0.9–1.0)
     fusion_bins = [0] * 10
 
     # Кількість зображень на користувача

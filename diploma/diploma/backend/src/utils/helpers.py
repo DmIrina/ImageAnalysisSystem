@@ -1,8 +1,3 @@
-"""
-helpers.py — допоміжні функції для обробки зображень і перетворення
-"""
-
-# import numpy as np
 import torch
 from PIL import Image
 from torchvision import transforms

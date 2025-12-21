@@ -14,7 +14,7 @@ export default function ResultTabs({results, originalFileName, previewUrl}) {
     const tabs = [
         {id: "ai", label: "ШІ-аналіз"},
         {id: "manip", label: "Маніпуляції"},
-        {id: "patch", label: "Патчі"},
+        {id: "patch", label: "Локалізація"},
         {id: "meta", label: "Метадані (EXIF)"},
         {id: "fusion", label: "Підсумковий результат"},
     ];

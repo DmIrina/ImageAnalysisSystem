@@ -21,9 +21,6 @@ def get_my_history(
         limit: int = 100,
         offset: int = 0,
 ):
-    """
-    Повертає історію оброблених зображень для поточного користувача.
-    """
     q = (
         db.query(ImageHistory)
         .filter(ImageHistory.user_id == current_user.id)
@@ -40,9 +37,6 @@ def get_history_item(
         db: Session = Depends(get_db),
         current_user: User = Depends(get_current_user),
 ):
-    """
-    Повертає один запис історії, якщо він належить поточному користувачу.
-    """
     item = db.query(ImageHistory).filter(ImageHistory.id == item_id).first()
     if item is None or item.user_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Запис не знайдено")

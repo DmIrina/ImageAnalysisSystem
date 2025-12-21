@@ -52,17 +52,6 @@ def _safe_get_exif(img: Image.Image) -> Dict[str, Any]:
 
 
 def analyze_metadata(img: Image.Image) -> Dict[str, Any]:
-    """
-    Повертає:
-      - metadata_score ∈ [0, 1]:
-          0.0  → EXIF немає або все виглядає типово → НЕ впливає на Fusion
-          ~0.6 → підозріла/неповна структура EXIF
-          ≥0.8 → сильна підозра (графічний редактор / AI-пайплайн)
-      - reason         → текстове пояснення
-      - software       → значення поля Software (якщо є)
-      - raw_exif       → сирий словник EXIF-полів
-    """
-
     exif_dict = _safe_get_exif(img)
 
     if not exif_dict:

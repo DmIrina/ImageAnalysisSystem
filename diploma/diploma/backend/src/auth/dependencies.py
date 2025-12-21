@@ -24,11 +24,6 @@ async def get_current_user(
         authorization: Optional[str] = Header(None),
         db: Session = Depends(get_db),
 ) -> User:
-    """
-    Обов'язкова аутентифікація:
-    - якщо токена нема або він некоректний -> 401
-    - інакше повертає User
-    """
     if not authorization:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -56,11 +51,6 @@ async def get_current_user_optional(
         authorization: Optional[str] = Header(None),
         db: Session = Depends(get_db),
 ) -> Optional[User]:
-    """
-    НЕобов'язкова аутентифікація:
-    - якщо токена нема або він некоректний -> повертає None
-    - якщо все ок -> повертає User
-    """
     if not authorization:
         return None
 
@@ -75,9 +65,6 @@ async def get_current_user_optional(
 async def get_current_admin(
         current_user: User = Depends(get_current_user),
 ) -> User:
-    """
-    Залежність для адмін-ендпоінтів.
-    """
     if not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

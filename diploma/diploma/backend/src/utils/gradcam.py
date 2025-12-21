@@ -6,18 +6,10 @@ import torch.nn.functional as F
 
 
 class ViTGradCAM:
-    """
-    Спрощений Grad-CAM-style для ViT:
-    - працюємо з токенами [B, N, C] з останнього блока;
-    - пропускаємо CLS-токен;
-    - важливість токена = середнє |градієнтів| по каналах;
-    - reshape до [H, W], де H*W = N-1 (для ViT-B/16 → 14*14).
-    """
-
     def __init__(self, model, target_layer, num_patches_side: int = 14):
         self.model = model.eval()
         self.target_layer = target_layer
-        self.num_patches_side = num_patches_side  # для 224x224 + patch16 = 14
+        self.num_patches_side = num_patches_side
 
         self.activations = None  # [B, N, C]
         self.gradients = None  # [B, N, C]

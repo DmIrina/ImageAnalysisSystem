@@ -71,9 +71,6 @@ def read_image_with_size(upload: UploadFile) -> tuple[Image.Image, int]:
 
 
 def normalize_map(m: np.ndarray) -> np.ndarray:
-    """
-    Нормалізація теплової карти до діапазону [0, 1].
-    """
     m = np.array(m)
     min_v = float(m.min())
     max_v = float(m.max())
@@ -101,7 +98,7 @@ def analyze_full(
     ai_heatmap = cam_ai[0, 0].detach().cpu().numpy()
     ai_norm = normalize_map(ai_heatmap)
 
-    # 2. MANIPULATION DETECTOR (MVSS) & PATCHES
+    # 2. MANIPULATION DETECTOR
     mvss_results = predict_mvss(mvss_model, np.array(img))
 
     manip_score = mvss_results["manipulation_score"]
