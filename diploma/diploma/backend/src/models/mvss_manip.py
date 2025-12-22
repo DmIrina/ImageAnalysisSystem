@@ -7,7 +7,7 @@ import numpy as np
 import torch
 from torchvision import transforms
 
-from thirdparty.mvss_net.models.mvssnet import get_mvss
+from backend.thirdparty.mvss_net.models.mvssnet import get_mvss
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 

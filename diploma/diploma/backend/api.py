@@ -1,3 +1,5 @@
+# backend/api.py
+
 import io
 import json
 from typing import Optional
@@ -16,7 +18,7 @@ from backend.src.db import get_db
 from backend.src.fusion.fusion import fusion_predict
 from backend.src.models.ai_detector import build_ai_vit, get_vit_cam_layer
 from backend.src.models.image_history import ImageHistory
-from backend.src.models.mvss_manip import load_mvss_model, predict_mvss
+from backend.src.models.mvss_manip import predict_mvss, load_mvss_model
 from backend.src.models.user import User
 from backend.src.routers import admin_model_metrics
 from backend.src.routers import auth, history, admin_stats
@@ -44,9 +46,11 @@ app.include_router(admin_model_metrics.router)
 
 AI_POS_IDX = 0  # індекс класу "ai_generated"
 
-MVSS_MODEL_PATH = "thirdparty/mvss_net/ckpt/mvssnetplus_casia.pt"
+from pathlib import Path
 
-mvss_model = load_mvss_model(MVSS_MODEL_PATH)
+BASE_DIR = Path(__file__).resolve().parent
+MVSS_MODEL_PATH = BASE_DIR / "thirdparty" / "mvss_net" / "ckpt" / "mvssnetplus_casia.pt"
+mvss_model = load_mvss_model(str(MVSS_MODEL_PATH))
 
 ai_model = build_ai_vit(num_classes=2, pretrained=False, freeze_backbone=False).to(DEVICE)
 try:
