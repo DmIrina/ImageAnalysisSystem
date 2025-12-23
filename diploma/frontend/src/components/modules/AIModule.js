@@ -1,7 +1,7 @@
 // frontend/src/components/modules/AIModule.jsx
 import React from "react";
 import HeatmapCanvas from "../HeatmapCanvas";
-import {pdfMake, heatmapToDataUrl, buildModuleFileName} from "../../utils/reportUtils";
+import {pdfMake, heatmapToDataUrl, buildModuleFileName, toLocalISOString} from "../../utils/reportUtils";
 
 export default function AIModule({results, originalFileName}) {
     const aiScore = results?.ai_score ?? null;
@@ -21,7 +21,7 @@ export default function AIModule({results, originalFileName}) {
         const payload = {
             module: "ai_detector",
             file: originalFileName || null,
-            generated_at: now.toISOString(),
+            generated_at: toLocalISOString(now),
             ai_score: aiScore,
             ai_heatmap: aiHeatmap,
         };

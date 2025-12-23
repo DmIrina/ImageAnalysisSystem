@@ -1,6 +1,6 @@
 // frontend/src/components/modules/FusionModule.js
 import React from "react";
-import {pdfMake, heatmapToDataUrl, buildModuleFileName} from "../../utils/reportUtils";
+import {pdfMake, heatmapToDataUrl, buildModuleFileName, toLocalISOString} from "../../utils/reportUtils";
 
 export default function FusionModule({results, originalFileName, previewUrl}) {
     if (!results) {
@@ -23,7 +23,6 @@ export default function FusionModule({results, originalFileName, previewUrl}) {
         fusion_heatmap,
     } = results;
 
-    // fusion_score з backend = ПІДОЗРІЛІСТЬ у [0,1]
     const suspicion =
         typeof fusion_score === "number" ? fusion_score : null;
     const credibility =
@@ -45,7 +44,7 @@ export default function FusionModule({results, originalFileName, previewUrl}) {
                     {
                         module: "fusion_overall",
                         file: originalFileName || null,
-                        generated_at: now.toISOString(),
+                        generated_at: toLocalISOString(now),
                         results,
                         derived: {
                             credibility,

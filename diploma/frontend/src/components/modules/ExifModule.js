@@ -1,6 +1,6 @@
 // frontend/src/components/modules/ExifModule.jsx
 import React from "react";
-import {pdfMake, buildModuleFileName} from "../../utils/reportUtils";
+import {pdfMake, buildModuleFileName, toLocalISOString} from "../../utils/reportUtils";
 
 export default function ExifModule({results, originalFileName}) {
     const metaScore = results?.metadata_score ?? null;
@@ -12,8 +12,7 @@ export default function ExifModule({results, originalFileName}) {
         const payload = {
             module: "metadata_exif",
             file: originalFileName || null,
-            generated_at: now.toISOString(),
-            metadata_score: metaScore,
+            generated_at: toLocalISOString(now),            metadata_score: metaScore,
             metadata_software: metaSoftware,
             metadata_reason: metaReason,
         };
@@ -56,7 +55,6 @@ export default function ExifModule({results, originalFileName}) {
                     text: `Software tag: ${metaSoftware}`,
                     margin: [0, 0, 0, 4],
                 },
-                // metadata_reason НАВМИСНО не додаємо в PDF
             ].filter(Boolean),
             styles: {
                 header: {fontSize: 18, bold: true, margin: [0, 0, 0, 8]},

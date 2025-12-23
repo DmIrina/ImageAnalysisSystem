@@ -1,7 +1,7 @@
 // frontend/src/components/modules/PatchModule.jsx
 import React from "react";
 import HeatmapCanvas from "../HeatmapCanvas";
-import {pdfMake, heatmapToDataUrl, buildModuleFileName} from "../../utils/reportUtils";
+import {pdfMake, heatmapToDataUrl, buildModuleFileName, toLocalISOString} from "../../utils/reportUtils";
 
 export default function PatchModule({results, originalFileName}) {
     const patchScore = results?.patch_score ?? null;
@@ -32,7 +32,7 @@ export default function PatchModule({results, originalFileName}) {
         const payload = {
             module: "patch_local_artifacts",
             file: originalFileName || null,
-            generated_at: now.toISOString(),
+            generated_at: toLocalISOString(now),
             patch_score: patchScore,
             patch_heatmap: patchHeatmap,
         };

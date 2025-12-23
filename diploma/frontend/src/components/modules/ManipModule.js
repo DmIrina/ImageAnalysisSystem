@@ -1,7 +1,7 @@
 // frontend/src/components/modules/ManipModule.jsx
 import React from "react";
 import HeatmapCanvas from "../HeatmapCanvas";
-import {pdfMake, heatmapToDataUrl, buildModuleFileName} from "../../utils/reportUtils";
+import {pdfMake, heatmapToDataUrl, buildModuleFileName, toLocalISOString} from "../../utils/reportUtils";
 
 export default function ManipModule({results, originalFileName}) {
     const manipScore = results?.manipulation_score ?? null;
@@ -18,7 +18,7 @@ export default function ManipModule({results, originalFileName}) {
         const payload = {
             module: "manipulation_detector",
             file: originalFileName || null,
-            generated_at: now.toISOString(),
+            generated_at: toLocalISOString(now),
             manipulation_score: manipScore,
             manip_heatmap: manipHeatmap,
         };

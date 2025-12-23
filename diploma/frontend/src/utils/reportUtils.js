@@ -12,7 +12,7 @@ export { pdfMake };
  */
 export function buildModuleFileName(originalFileName, suffix) {
     const now = new Date();
-    const ts = now.toISOString().replace(/[:.]/g, "-");
+    const ts = now.toLocaleString().replace(/[:.]/g, "-");
     const base = (originalFileName || "image").replace(/\.[^/.]+$/, "");
     return {
         fileName: `${base}_${suffix}_${ts}`,
@@ -20,9 +20,12 @@ export function buildModuleFileName(originalFileName, suffix) {
     };
 }
 
-/**
- * Перетворити heatmap (2D масив [H][W]) у dataURL (png) для вставки в PDF.
- */
+export function toLocalISOString(date) {
+    const tzOffset = date.getTimezoneOffset() * 60000;
+    const localTime = new Date(date.getTime() - tzOffset);
+    return localTime.toISOString().slice(0, -1);
+}
+
 export function heatmapToDataUrl(matrix, scale = 8) {
     if (!matrix || !matrix.length || !matrix[0].length) return null;
 
@@ -33,7 +36,6 @@ export function heatmapToDataUrl(matrix, scale = 8) {
     canvas.height = h * scale;
     const ctx = canvas.getContext("2d");
 
-    // знаходимо min/max
     let min = Infinity;
     let max = -Infinity;
     for (let y = 0; y < h; y++) {
